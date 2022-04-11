@@ -1,9 +1,8 @@
 package com.tec.service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,7 @@ public class ServiceImpli implements ServiceInterface{
 	}
 
 	public String delete(String firstname) {
+	
 		repo.deleteByName(firstname);
 		return "Deleted By the name : "+firstname;
 	}
@@ -62,9 +62,11 @@ public class ServiceImpli implements ServiceInterface{
 	}
 
 	@Override
-	public void updateBySalary(int id, long salary) {
+	public List<Employee> updateBySalary(int id, int salary) {
 //		Optional<Employee> findById = repo.findById(id);
-		System.out.println(repo.findById(id));
+		 Optional<Employee> stream = repo.findById(id);
+		System.out.println(stream);
+		return null;
 		
 	}
 
@@ -76,5 +78,18 @@ public class ServiceImpli implements ServiceInterface{
 		return list2;
 		
 	}
+
+	
+	@Override
+	public List<Employee> empNamesInTheDescend() {
+			
+		List<Employee> list = repo.findAll();
+		List<Employee> collect = list.stream().sorted((i,j) -> j.getFirstname().compareToIgnoreCase(i.getFirstname())).
+									collect(Collectors.toList());
+		
+		return collect;
+	}
+
+	
 
 }

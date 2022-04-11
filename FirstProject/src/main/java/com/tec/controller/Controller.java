@@ -52,25 +52,24 @@ public class Controller
 	}
 	
 	@PutMapping("/updatesal/{id}/{sal}")
-	public void upda(@PathVariable int id, @RequestBody long salary)
+	public List<Employee> upda(@PathVariable int id, @PathVariable int salary)
 	{
-		serviceInterface.updateBySalary(id,salary);
+		return serviceInterface.updateBySalary(id,salary);
 	
 		
 	}
 	@GetMapping("/greaterExp/{experience}")
-	public void hjgfk(@PathVariable int experience)
+	public List<Employee> hjgfk(@PathVariable int experience)
 	{
-		serviceInterface.showGreaterExperience(experience);
+		return serviceInterface.showGreaterExperience(experience);
 	}
 	
+	@GetMapping("/empnamesindescend")
+	public List<Employee> desc()
+	{
 	
-	
-	
-	
-	
-	
-	
+		return serviceInterface.empNamesInTheDescend();
+	}
 	
 	
 	
