@@ -17,29 +17,22 @@ public class ServiceImpli implements ServiceInterface{
 	@Autowired
 	Repo repo;
 	
+	//save
 	@Override
 	public Employee save(Employee employee)
 	{
 		
 		return repo.save(employee);
-		
-		 
 	}
 
-	public String delete(String firstname) {
+	//delete
+	public void delete(String firstname) {
 	
 		repo.deleteByName(firstname);
-		return "Deleted By the name : "+firstname;
+		
 	}
 
-	@Override
-	public Employee update(int id, Employee employee) {
-		Object id1 = repo.findById(id);
-		
-		return repo.save(employee);
-		
-	}
-	
+	//more salary
 	@Override
 	public List<Employee> moresalary(long sal) 
 	{
@@ -57,19 +50,10 @@ public class ServiceImpli implements ServiceInterface{
 		List<Employee> list2 = list.stream().filter(i->i.getSalary()>sal).collect(Collectors.toList());
 		
 			return list2;
-			
-
 	}
 
-	@Override
-	public List<Employee> updateBySalary(int id, int salary) {
-//		Optional<Employee> findById = repo.findById(id);
-		 Optional<Employee> stream = repo.findById(id);
-		System.out.println(stream);
-		return null;
-		
-	}
 
+	//greater exp
 	@Override
 	public List<Employee> showGreaterExperience(int experience) {
 		List<Employee> list = repo.findAll();
@@ -79,7 +63,7 @@ public class ServiceImpli implements ServiceInterface{
 		
 	}
 
-	
+	//descending order
 	@Override
 	public List<Employee> empNamesInTheDescend() {
 			
@@ -89,6 +73,34 @@ public class ServiceImpli implements ServiceInterface{
 		
 		return collect;
 	}
+
+	// get by id
+	@Override
+	public Optional<Employee> getById(int id) {
+		Optional<Employee> optional = repo.findById(id);
+		return optional;
+		
+	}
+
+	//get all records
+	@Override
+	public List<Employee> getAll() {
+		List<Employee> list = repo.findAll();
+		return list;
+	}
+
+	// update by salary
+	@Override
+	public void updateew(Employee employee, int id) {
+		Employee  e1 = repo.getById(id);
+		e1.setSalary(employee.getSalary());
+		System.out.println(e1);
+		repo.save(e1);
+		
+		
+	}
+
+	
 
 	
 

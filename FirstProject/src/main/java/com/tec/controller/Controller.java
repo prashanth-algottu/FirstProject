@@ -1,6 +1,7 @@
 package com.tec.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tec.model.Employee;
@@ -22,28 +23,67 @@ public class Controller
 	@Autowired
 	ServiceInterface serviceInterface;
 	
+	@RequestMapping("/")
+	public String page()
+	{
+		return "home.html";
+	}
+	
+	
+	// 1.Get All
+	@GetMapping("/getAll")
+	public List<Employee> getall()
+	{
+		return serviceInterface.getAll();
+	}
+	
+	
+	
+	//2.Get By Id
+	@GetMapping("/getEmpId/{id}")
+	public Optional<Employee> getEmp(@PathVariable int id)
+	{
+		return serviceInterface.getById(id);
+	}
+	
+	
+	
+	// 3.Saving
 	@PostMapping("/save")
-	public Employee saveobj(@RequestBody Employee employee )
+	public String saveobj(@RequestBody Employee employee )
 	{
 		System.out.println("chinnu");
-		return serviceInterface.save(employee);
+		serviceInterface.save(employee);
+		return "Inserted sucessfully";
 		 
 	}
 	
+	
+	
+	
+	//4.Delete By name
 	@DeleteMapping("/delete/{firstname}")
 	public String del(@PathVariable String firstname )
 	{
-		return  serviceInterface.delete(firstname);
+		serviceInterface.delete(firstname);
+		return "deleted "+firstname +" Details";
 		 
 	}
 	
-	@PutMapping("/update/{id}")
-	public Employee update(@PathVariable int id, @RequestBody Employee employee)
+	
+	
+	
+	//5.Updating
+	@PutMapping("/update1/{id1}")
+	public String updateee(@RequestBody Employee employee  ,@PathVariable int id1)
 	{
-		serviceInterface.update(id,employee);
-		return null;
+		serviceInterface.updateew(employee,id1);
+		return "updated Sucessesfully";
 	}
 	
+	
+	
+	//6. More than salary 
 	@GetMapping("/moresalary/{sal}")
 	public List<Employee> moresal(@PathVariable long sal )
 	{
@@ -51,19 +91,21 @@ public class Controller
 		
 	}
 	
-	@PutMapping("/updatesal/{id}/{sal}")
-	public List<Employee> upda(@PathVariable int id, @PathVariable int salary)
-	{
-		return serviceInterface.updateBySalary(id,salary);
 	
-		
-	}
+	
+	
+	// 7.greater experience
 	@GetMapping("/greaterExp/{experience}")
 	public List<Employee> hjgfk(@PathVariable int experience)
 	{
 		return serviceInterface.showGreaterExperience(experience);
 	}
 	
+	
+	
+	
+	
+	//8. Descending the names of employees
 	@GetMapping("/empnamesindescend")
 	public List<Employee> desc()
 	{
